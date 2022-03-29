@@ -32,6 +32,11 @@ function MerchandiseInputBar(props: any) {
     setImage(file);
   }
 
+  const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    props.closeDropdown()
+  }
+
   const handleSubmit = (evt: any) => {
     console.log("artistId", artistId)
     console.log("currentId", currentId)
@@ -98,11 +103,15 @@ function MerchandiseInputBar(props: any) {
         <Input type="file" onChange={handleChange} />
         <br />
         <Label></Label>
+          <div className="buttons">
         <Button type="submit">
           <Text fontFamily='system-ui'>
             Upload Your NFT
           </Text>
         </Button>
+        <Button
+          onClick={handleCancel}>cancel</Button>
+        </div>
       </form>
     </div>
   )

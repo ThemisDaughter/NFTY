@@ -1,11 +1,13 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useRef, useEffect} from 'react';
 import { storage } from '../../../Firebase/index'
 import { Input, Label } from '@rebass/forms'
 import { Text, Button } from "rebass";
 import { createAlbum } from 'Services/Album';
 import { UserContext } from 'Data/UserContext';
+import  { StaggerParentVariant, StaggerItemVariant } from 'Styles/animations/formAnimations';
+import { motion } from 'framer-motion';
 
-import moment from 'moment';
+// import onClickOutside from "react-onclickoutside";
 
 function AlbumInputBar(props: any) {
 
@@ -31,14 +33,11 @@ function AlbumInputBar(props: any) {
   }
 
 
-  // moment.prototype.toMySqlDateTime = function () {
-  //   return this.format('YYYY-MM-DD HH:mm:ss');
-  // };
-
-  const handleChange = (e: any) => {
+   const handleChange = (e: any) => {
     const file = e.target.files[0];
     setImage(file);
   }
+
 
   const handleSubmit = (evt: any) => {
     // @ts-ignore
@@ -78,41 +77,63 @@ function AlbumInputBar(props: any) {
     setTokensValue((tokensValue: number) => tokensValue = 0);
   };
 
-  return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <progress value={progress} max="100" />
+  const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    props.closeDropdown()
+  }
 
+  return (
+    <form onSubmit={handleSubmit}>
+    <motion.div
+      variants={StaggerParentVariant}
+      initial="hidden"
+      animate="show"
+      exit="exit"
+    >
+        <progress value={progress} max="100" />
+    <motion.div className="form-control" > 
         <Label>Album Name</Label>
-        <Input type="string" name="name" value={name} placeholder="Please enter album name ..." onChange={(evt: { target: { value: any; }; }) => setName(evt.target.value)} required></Input>
+          <Input type="string" name="name" value={name} placeholder="Please enter album name ..." onChange={(evt: { target: { value: any; }; }) => setName(evt.target.value)} required></Input>
+          </motion.div>
         <br />
+        <motion.div className="form-control">
         <Label>Release Date</Label>
 
         {/* @ts-ignore */}
         <input type="datetime-local" name="year" value={year} onChange={(evt: { target: { value: any; }; }) => setYear(evt.target.value)} required></input>
-
+        </motion.div>
         <br />
-        <br />
+        <div className="form-control">
         <Label>Description of the Album</Label>
         <Input type="string" name="description" placeholder="Please enter a description of the Album ..." value={description} onChange={(evt: { target: { value: any; }; }) => setDescription(evt.target.value)} required></Input>
+        </div>
         <br />
+        <div className="form-control">
         <Label>Number of NFT's Available</Label>
         <Input type="number" name="tokensNumber" value={tokensNumber} onChange={(evt: { target: { value: string; }; }) => setTokensNumber(parseInt(evt.target.value))} required></Input>
+        </div>
         <br />
+        <div className="form-control" > 
         <Label> Value of the NFT</Label>
         <Input type="number" name="tokensValue" value={tokensValue} onChange={(evt: { target: { value: string; }; }) => setTokensValue(parseInt(evt.target.value))} required></Input>
-        <br />
+        </div > 
+            <br />
+            <div className="form-control">
         <Label> Upload Your NFT's cover picture</Label>
-
-        <Input type="file" onChange={handleChange} />
-        <br />
+              <Input type="file" onChange={handleChange} />
+              </div>
+            <br />
+            <div className="form-control buttons">
         <Button color="#33e" type='submit'>
           <Text fontFamily='system-ui'>
             Upload Your NFT's
-          </Text>
-        </Button>
+                </Text>
+          </Button>
+          <Button
+            onClick={ handleCancel }>cancel</Button>
+              </div>
+    </motion.div>
       </form>
-    </div>
   )
 }
 

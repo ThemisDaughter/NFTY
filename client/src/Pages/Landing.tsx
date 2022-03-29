@@ -10,7 +10,6 @@ import UserHeader from 'Components/FormComponents/DataComponents/UserHeader';
 
 //styling
 import { LayoutGroup } from 'framer-motion';
-import Parallax from 'Styles/animations/ParallaxAnimation';
 import ShuffleSelector from 'Styles/animations/ShuffleSelector';
 import Transition from 'Styles/animations/PageTransitions';
 import Background from 'Styles/animations/LandingPageAnim';
@@ -116,14 +115,12 @@ const LandingPage: React.FunctionComponent = () => {
   return (
     //if user, display personalised component on top -> artist || user - else, have a login sign up option
     <Transition>
-      <Parallax>  
 
       {(userType === 'public')
         ? <PublicHeader />
           : <UserHeader currentName={name} />
       }
      
-     </Parallax>
       <StyledPage>
       <Background />
 

@@ -24,11 +24,11 @@ const UserHeader = (props: IProps) => {
        <Link to={`user/${currentId}`}>
         <div className="userProfile">
 
-                { name }
+             
+      <AnimatedH1>{ currentName }</AnimatedH1>
 
          </div>
        </Link>
-      <AnimatedH1>{ currentName }</AnimatedH1>
       { currentName }
       {/* <AnimatedH1>{ currentName } </AnimatedH1> */}
     </StyledHeader>
